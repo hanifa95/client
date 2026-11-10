@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase/firebase-config";
@@ -34,7 +33,6 @@ const Orders = () => {
 
       const data = await response.json();
       setOrders(data.reverse());
-
     } catch (error) {
       console.error("Error fetching orders:", error);
       setError("Ошибка загрузки заказов");
@@ -78,7 +76,7 @@ const Orders = () => {
       return Number(order.serviceFee) || 0;
     }
 
-    return getSubtotal(order) * 0.10;
+    return getSubtotal(order) * 0.1;
   };
 
   // Доставка
@@ -96,33 +94,21 @@ const Orders = () => {
       return Number(order.totalAmount) || 0;
     }
 
-    return (
-      getSubtotal(order) +
-      getServiceFee(order) +
-      getDeliveryPrice(order)
-    );
+    return getSubtotal(order) + getServiceFee(order) + getDeliveryPrice(order);
   };
 
   return (
     <div className="bg-light min-vh-100 py-5">
-
       <div className="container">
-
         {/* Header */}
         <div className="d-flex flex-wrap justify-content-between align-items-center mb-5 gap-3">
-
           <div>
-            <h1 className="fw-bold text-primary mb-1">
-              📦 My Orders
-            </h1>
+            <h1 className="fw-bold text-primary mb-1">📦 My Orders</h1>
 
-            <p className="text-muted mb-0">
-              Управление и информация о заказах
-            </p>
+            <p className="text-muted mb-0">Управление и информация о заказах</p>
           </div>
 
           <div className="d-flex align-items-center gap-3">
-
             <span className="badge bg-primary fs-6 px-3 py-2">
               {orders.length} заказов
             </span>
@@ -135,13 +121,17 @@ const Orders = () => {
               ↻ Обновить
             </button>
 
-            <button
-              className="btn btn-danger fw-bold"
-              onClick={logout}
+            <a
+              href="/products"
+              className=" btn btn-primary"
+              // style={{ background: "#174477" }}
             >
+              <i className="bi bi-box-seam me-2"></i>Products
+            </a>
+
+            <button className="btn btn-danger fw-bold" onClick={logout}>
               Logout
             </button>
-
           </div>
         </div>
 
@@ -149,9 +139,7 @@ const Orders = () => {
         {loading && (
           <div className="text-center py-5">
             <div className="spinner-border text-primary"></div>
-            <p className="text-muted mt-3">
-              Загрузка заказов...
-            </p>
+            <p className="text-muted mt-3">Загрузка заказов...</p>
           </div>
         )}
 
@@ -173,9 +161,7 @@ const Orders = () => {
           <div className="card border-0 shadow-sm rounded-4">
             <div className="card-body text-center py-5">
               <h2>🛒</h2>
-              <h4 className="fw-bold">
-                Заказов пока нет
-              </h4>
+              <h4 className="fw-bold">Заказов пока нет</h4>
               <p className="text-muted">
                 Здесь будут отображаться оформленные заказы.
               </p>
@@ -190,7 +176,6 @@ const Orders = () => {
         {/* Orders */}
         {!loading && !error && orders.length > 0 && (
           <div className="row g-4">
-
             {orders.map((order) => {
               const subtotal = getSubtotal(order);
               const serviceFee = getServiceFee(order);
@@ -198,59 +183,42 @@ const Orders = () => {
               const totalAmount = getTotal(order);
 
               return (
-                <div
-                  className="col-md-6 col-xl-4"
-                  key={order.id}
-                >
-
+                <div className="col-md-6 col-xl-4" key={order.id}>
                   <div
                     className="card border-0 shadow rounded-4 h-100"
                     style={{
                       transition: "0.3s",
                     }}
                   >
-
                     {/* Card Header */}
                     <div
                       className="card-header border-0 text-white p-4 rounded-top-4"
                       style={{
-                        background:
-                          "linear-gradient(135deg, #0d6efd, #6610f2)",
+                        background: "linear-gradient(135deg, #0d6efd, #6610f2)",
                       }}
                     >
-
                       <div className="d-flex justify-content-between align-items-center">
-
                         <div>
-                          <small className="opacity-75">
-                            Номер заказа
-                          </small>
+                          <small className="opacity-75">Номер заказа</small>
 
-                          <h4 className="fw-bold mb-0">
-                            #{order.id}
-                          </h4>
+                          <h4 className="fw-bold mb-0">#{order.id}</h4>
                         </div>
 
                         <span className="badge bg-white text-primary fs-6">
                           📦 Order
                         </span>
-
                       </div>
-
                     </div>
 
                     {/* Card Body */}
                     <div className="card-body p-4">
-
                       {/* Customer */}
                       <h6 className="text-primary fw-bold mb-3">
                         👤 Информация о клиенте
                       </h6>
 
                       <div className="mb-2">
-                        <small className="text-muted">
-                          Имя клиента
-                        </small>
+                        <small className="text-muted">Имя клиента</small>
 
                         <div className="fw-semibold">
                           {order.customerName || "Не указано"}
@@ -258,9 +226,7 @@ const Orders = () => {
                       </div>
 
                       <div className="mb-2">
-                        <small className="text-muted">
-                          Телефон
-                        </small>
+                        <small className="text-muted">Телефон</small>
 
                         <div className="fw-semibold">
                           {order.customerPhone || "Не указан"}
@@ -268,9 +234,7 @@ const Orders = () => {
                       </div>
 
                       <div className="mb-3">
-                        <small className="text-muted">
-                          Адрес доставки
-                        </small>
+                        <small className="text-muted">Адрес доставки</small>
 
                         <div className="fw-semibold">
                           📍 {order.address || "Не указан"}
@@ -290,7 +254,6 @@ const Orders = () => {
                             key={`${product.id}-${index}`}
                             className="d-flex justify-content-between align-items-start mb-3"
                           >
-
                             <div className="me-2">
                               <div className="fw-semibold">
                                 {product.title ||
@@ -308,10 +271,10 @@ const Orders = () => {
                             <strong className="text-nowrap">
                               {formatPrice(
                                 Number(product.price) *
-                                Number(product.count || 1)
-                              )} сом
+                                  Number(product.count || 1)
+                              )}{" "}
+                              сом
                             </strong>
-
                           </div>
                         ))
                       ) : (
@@ -324,13 +287,9 @@ const Orders = () => {
 
                       {/* Weight */}
                       <div className="d-flex justify-content-between mb-3">
-                        <span className="text-muted">
-                          ⚖️ Вес заказа
-                        </span>
+                        <span className="text-muted">⚖️ Вес заказа</span>
 
-                        <strong>
-                          {order.weight || 0} кг
-                        </strong>
+                        <strong>{order.weight || 0} кг</strong>
                       </div>
 
                       {/* Price Details */}
@@ -339,23 +298,15 @@ const Orders = () => {
                       </h6>
 
                       <div className="d-flex justify-content-between mb-2">
-                        <span className="text-muted">
-                          Стоимость товаров
-                        </span>
+                        <span className="text-muted">Стоимость товаров</span>
 
-                        <strong>
-                          {formatPrice(subtotal)} сом
-                        </strong>
+                        <strong>{formatPrice(subtotal)} сом</strong>
                       </div>
 
                       <div className="d-flex justify-content-between mb-2">
-                        <span className="text-muted">
-                          🚚 Доставка
-                        </span>
+                        <span className="text-muted">🚚 Доставка</span>
 
-                        <strong>
-                          {formatPrice(deliveryPrice)} сом
-                        </strong>
+                        <strong>{formatPrice(deliveryPrice)} сом</strong>
                       </div>
 
                       <div className="d-flex justify-content-between mb-3">
@@ -375,59 +326,40 @@ const Orders = () => {
                           background: "#e8f5e9",
                         }}
                       >
-
                         <div className="d-flex justify-content-between align-items-center">
-
-                          <span className="fw-bold">
-                            ИТОГО
-                          </span>
+                          <span className="fw-bold">ИТОГО</span>
 
                           <h4 className="text-success fw-bold mb-0">
                             {formatPrice(totalAmount)} сом
                           </h4>
-
                         </div>
-
                       </div>
 
                       {/* Status */}
                       <div className="d-flex justify-content-between align-items-center">
-
-                        <span className="text-muted">
-                          Статус заказа
-                        </span>
+                        <span className="text-muted">Статус заказа</span>
 
                         <span className="badge bg-warning text-dark px-3 py-2">
                           {order.status || "pending"}
                         </span>
-
                       </div>
-
                     </div>
 
                     {/* Footer */}
                     <div className="card-footer bg-white border-0 p-4 pt-0">
-
                       <button
                         className="btn btn-primary w-100 rounded-3 fw-bold"
-                        onClick={() =>
-                          navigate(`/orders/${order.id}`)
-                        }
+                        onClick={() => navigate(`/orders/${order.id}`)}
                       >
                         Посмотреть детали →
                       </button>
-
                     </div>
-
                   </div>
-
                 </div>
               );
             })}
-
           </div>
         )}
-
       </div>
     </div>
   );

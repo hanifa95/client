@@ -222,6 +222,15 @@ export default function PickupPointsList() {
         >
           {loading ? "Загрузка..." : "↻ Обновить список"}
         </button>
+
+        <a
+              href="/products"
+              className=" btn btn-primary fw-bold"
+              // style={{ background: "#174477" }}
+            >
+              <i className="bi bi-box-seam me-2"></i>Products
+            </a>
+        
       </div>
 
       {/* Ошибка */}

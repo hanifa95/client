@@ -142,293 +142,377 @@
       return matchesSearch && matchesCategory && matchesMin && matchesMax;
     });
 
-    return (
-      <div className="bg-light min-vh-100 py-5">
-        <div className="container">
-          {/* Header */}
-          {/* Информация о текущем аккаунте */}
-          <div
-            className="d-flex align-items-center justify-content-between flex-wrap gap-3 
-                  bg-success text-white rounded-3 px-4 py-3 mb-3 shadow-sm"
-          >
-            <div className="d-flex align-items-center gap-2">
-              <i className="bi bi-person-circle fs-4 text-info"></i>
-              <span className="fw-semibold">Вы вошли как:</span>
-            </div>
+   
+    
+return (
+  <div
+    className="min-vh-100 py-5"
+    style={{ background: "#F1F5FB" }}
+  >
+    <div className="container">
 
-            <div className="d-flex align-items-center flex-wrap gap-4">
-              <span className="fw-bold text-light">
-                <i className="bi bi-person-fill me-2"></i>
-                {user.name}
-              </span>
-
-              <span className="text-light">
-                <i className="bi bi-envelope-fill me-2"></i>
-                {user.email}
-              </span>
-            </div>
+      {/* User Account */}
+      <div
+        className="d-flex justify-content-between align-items-center flex-wrap gap-3 p-4 mb-4 rounded-4 shadow"
+        style={{
+          background: "linear-gradient(120deg, #0B1F3A, #174477)",
+          color: "white"
+        }}
+      >
+        <div className="d-flex align-items-center gap-3">
+          <i className="bi bi-person-circle fs-1 text-info"></i>
+          <div>
+            <small className="text-info">Welcome back</small>
+            <h5 className="fw-bold mb-0">You are logged in as</h5>
           </div>
+        </div>
 
-          <div className="d-flex justify-content-between align-items-center mb-5">
-            <h1 className="fw-bold text-success">🛍️ Product Store</h1>
+        <div className="d-flex flex-wrap gap-4">
+          <span className="fw-bold">
+            <i className="bi bi-person-fill me-2"></i>
+            {user.name}
+          </span>
+          <span>
+            <i className="bi bi-envelope-fill me-2"></i>
+            {user.email}
+          </span>
+        </div>
+      </div>
 
-            <a href="/orders">
-              <button className="btn btn-success form-control">Order</button>
-            </a>
+      {/* Header */}
+      <div className="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-5">
+        <div>
+          <h1 className="fw-bold mb-1" style={{ color: "#0B1F3A" }}>
+            <i className="bi bi-bag-heart-fill me-2"></i>
+            Product Store
+          </h1>
+          <p className="text-secondary mb-0">
+            Discover your favorite products
+          </p>
+        </div>
 
-            <a href="/inventory">
-              <button className="btn btn-success ms-3 fw-bold">Inventory</button>
-            </a>
+        <div className="d-flex flex-wrap gap-2">
+          <a href="/orders" className="btn text-white rounded-pill px-3"
+            style={{ background: "#0B1F3A" }}>
+            <i className="bi bi-receipt me-2"></i>Orders
+          </a>
 
-            <a href="/PickupPointsList">
-              <button className="btn btn-success ms-3 fw-bold">
-                PickupPoint
-              </button>
-            </a>
+          <a href="/inventory" className="btn text-white rounded-pill px-3"
+            style={{ background: "#174477" }}>
+            <i className="bi bi-box-seam me-2"></i>Inventory
+          </a>
 
-            {/* <span className="badge bg-success fs-6 px-3 py-2">
-                  {products.length} Products
-                </span> */}
+          <a href="/PickupPointsList" className="btn text-white rounded-pill px-3"
+            style={{ background: "#2563A6" }}>
+            <i className="bi bi-geo-alt me-2"></i>Pickup Points
+          </a>
+        </div>
+      </div>
 
-            <div className="d-flex gap-2">
-              <span className="badge bg-danger fs-6 px-3 py-2">
-                ❤️ {favorites.length}
-              </span>
-
-              <span className="badge bg-success fs-6 px-3 py-2">
-                {products.length} Products
-              </span>
-            </div>
-          </div>
-
-          {/* Cart */}
-          <div className="card shadow border-0 rounded-4 mb-5">
-            <div className="card-body">
-              <div className="d-flex justify-content-between align-items-center">
-                <div>
-                  <h3 className="fw-bold text-success">
-                    🛒 Shopping Cart ({cart.length})
-                  </h3>
-
-                  {cart.length === 0 ? (
-                    <p className="text-muted mb-0">Your cart is empty</p>
-                  ) : (
-                    <ul className="list-group mt-3">
-                      {cart.map((product, index) => (
-                        <li
-                          key={`${product.id}-${index}`}
-                          className="list-group-item d-flex justify-content-between align-items-center"
-                        >
-                          <span>
-                            {product.title || product.name || product.description}
-                          </span>
-
-                          <span className="badge bg-success rounded-pill">
-                            {Number(product.price).toLocaleString("ru-RU")} сом
-                            {" / "}$
-                            {(Number(product.price) / USD_TO_KGS).toFixed(2)}
-                          </span>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </div>
-
-                <a href="/checkout">
-                  <button className="btn btn-success btn-lg rounded-pill px-4">
-                    Checkout
-                  </button>
-                </a>
+      {/* Statistics */}
+      <div className="row g-3 mb-4">
+        <div className="col-md-4">
+          <div className="card border-0 shadow-sm rounded-4 p-3">
+            <div className="d-flex justify-content-between align-items-center">
+              <div>
+                <p className="text-secondary mb-1">Products</p>
+                <h3 className="fw-bold mb-0" style={{ color: "#0B1F3A" }}>
+                  {products.length}
+                </h3>
               </div>
+              <i className="bi bi-box-seam fs-1 text-primary"></i>
             </div>
           </div>
+        </div>
 
-          {/* Favorites */}
-          <div className="card shadow border-0 rounded-4 mb-5">
-            <div className="card-body">
-              {/* <a href="/favorites">
-                <button
-                  className="btn btn-danger"
-                  onClick={() => handleFavorite(product)}
-                >
-                  {" "}
-                  ❤️Favorites
-                </button>
-              </a> */}
-              <a href="/favorites" className="btn btn-danger">
-                ❤️ Favorites
-              </a>
+        <div className="col-md-4">
+          <div className="card border-0 shadow-sm rounded-4 p-3">
+            <div className="d-flex justify-content-between align-items-center">
+              <div>
+                <p className="text-secondary mb-1">Favorites</p>
+                <h3 className="fw-bold text-danger mb-0">
+                  {favorites.length}
+                </h3>
+              </div>
+              <i className="bi bi-heart-fill fs-1 text-danger"></i>
+            </div>
+          </div>
+        </div>
 
-              <h3 className="fw-bold text-danger text-center p-3">
-                ❤️ Favorite Products
-              </h3>
+        <div className="col-md-4">
+          <div className="card border-0 shadow-sm rounded-4 p-3">
+            <div className="d-flex justify-content-between align-items-center">
+              <div>
+                <p className="text-secondary mb-1">Shopping Cart</p>
+                <h3 className="fw-bold mb-0" style={{ color: "#0B1F3A" }}>
+                  {cart.length}
+                </h3>
+              </div>
+              <i className="bi bi-cart-fill fs-1 text-primary"></i>
+            </div>
+          </div>
+        </div>
+      </div>
 
-              {favorites.length === 0 ? (
-                <p className="text-muted">No favorite products</p>
+      {/* Shopping Cart */}
+      <div className="card border-0 shadow-sm rounded-4 mb-4">
+        <div className="card-body p-4">
+          <div className="d-flex justify-content-between align-items-center flex-wrap gap-3">
+            <div>
+              <h4 className="fw-bold mb-2" style={{ color: "#0B1F3A" }}>
+                <i className="bi bi-cart3 me-2"></i>
+                Shopping Cart ({cart.length})
+              </h4>
+
+              {cart.length === 0 ? (
+                <p className="text-secondary mb-0">
+                  Your shopping cart is empty
+                </p>
               ) : (
-                <ul className="list-group">
-                  {favorites.map((product) => (
+                <ul className="list-group mt-3">
+                  {cart.map((product, index) => (
                     <li
-                      key={product.id}
+                      key={`${product.id}-${index}`}
                       className="list-group-item d-flex justify-content-between align-items-center"
                     >
-                      <div>
-                        <strong>{product.name}</strong>
-                        <br />
-                        <small>${product.price}</small>
-                      </div>
-
-                      <button
-                        className="btn btn-outline-danger btn-sm"
-                        onClick={() => handleFavorite(product)}
-                      >
-                        Remove
-                      </button>
+                      <span className="fw-semibold">
+                        {product.title || product.name || product.description}
+                      </span>
+                      <span className="badge rounded-pill text-white"
+                        style={{ background: "#174477" }}>
+                        {Number(product.price).toLocaleString("ru-RU")} сом
+                        {" / "}$
+                        {(Number(product.price) / USD_TO_KGS).toFixed(2)}
+                      </span>
                     </li>
                   ))}
                 </ul>
               )}
             </div>
-          </div>
 
-          {/* Loading */}
-          {loading && (
-            <div className="text-center mb-4">
-              <div className="spinner-border text-primary"></div>
-            </div>
-          )}
-
-          {/*Search */}
-          <div className="card shadow border-0 rounded-4 mb-4">
-            <div className="card-body">
-              <div className="row g-3">
-                <div className="col-md-4">
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="🔍 Search by name..."
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                  />
-                </div>
-
-                <div className="col-md-2">
-                  <input
-                    type="number"
-                    className="form-control"
-                    placeholder="Min price"
-                    value={minPrice}
-                    onChange={(e) => setMinPrice(e.target.value)}
-                  />
-                </div>
-
-                <div className="col-md-2">
-                  <input
-                    type="number"
-                    className="form-control"
-                    placeholder="Max price"
-                    value={maxPrice}
-                    onChange={(e) => setMaxPrice(e.target.value)}
-                  />
-                </div>
-
-                <div className="col-md-4">
-                  <select
-                    className="form-select"
-                    value={selectedCategory}
-                    onChange={(e) => setSelectedCategory(e.target.value)}
-                  >
-                    {categories.map((category) => (
-                      <option key={category} value={category}>
-                        {category}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Products */}
-          <div className="row g-4">
-            {filteredProducts.map((product) => (
-              <div className="col-sm-6 col-lg-4" key={product.id}>
-                <div
-                  className="card border-0 shadow h-100 rounded-4"
-                  style={{
-                    transition: "0.3s",
-                    cursor: "pointer",
-                  }}
-                  onMouseEnter={(e) =>
-                    (e.currentTarget.style.transform = "translateY(-8px)")
-                  }
-                  onMouseLeave={(e) =>
-                    (e.currentTarget.style.transform = "translateY(0)")
-                  }
-                >
-                  <img
-                    src={product.image}
-                    alt={product.title}
-                    className="card-img-top p-4"
-                    style={{
-                      height: "260px",
-                      objectFit: "contain",
-                    }}
-                  />
-
-                  <div className="card-body d-flex flex-column">
-                    <h5 className="fw-bold">{product.title}</h5>
-
-                    <h4 className="">{product.description}</h4>
-
-                    <div>
-                      <h4 className="text-success fw-bold">
-                        {Number(product.price).toLocaleString("ru-RU")} сом
-                      </h4>
-
-                      <p className="text-muted mb-0">
-                        ${(Number(product.price) / USD_TO_KGS).toFixed(2)}
-                      </p>
-
-                      <span className="badge bg-secondary">
-                        {product.category}
-                      </span>
-                    </div>
-
-                    {/* <button
-                      className="btn btn-success rounded-pill"
-                      onClick={() => handleAddToCart(product)}
-                    >
-                      🛒 Add to Cart
-                    </button> */}
-
-                    <button
-                      className="btn btn-success mb-3 mt-4"
-                      onClick={() => handleAddToCart(product)}
-                    >
-                      🛒 Add to Cart
-                    </button>
-
-                    <button
-                      className={`btn ${
-                        favorites.some((item) => item.id === product.id)
-                          ? "btn-danger"
-                          : "btn-outline-danger"
-                      }`}
-                      onClick={() => handleFavorite(product)}
-                    >
-                      {favorites.some((item) => item.id === product.id)
-                        ? "❤️"
-                        : "🤍"}
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))}
+            <a
+              href="/checkout"
+              className="btn text-white rounded-pill px-4 py-3 fw-bold"
+              style={{ background: "#0B1F3A" }}
+            >
+              Checkout <i className="bi bi-arrow-right ms-2"></i>
+            </a>
           </div>
         </div>
       </div>
-    );
+
+      {/* Favorites */}
+      <div className="card border-0 shadow-sm rounded-4 mb-4">
+        <div className="card-body p-4">
+          <div className="d-flex justify-content-between align-items-center mb-3">
+            <h4 className="fw-bold mb-0" style={{ color: "#0B1F3A" }}>
+              <i className="bi bi-heart-fill text-danger me-2"></i>
+              Favorite Products
+            </h4>
+
+            <a href="/favorites" className="btn btn-outline-danger rounded-pill">
+              View All
+            </a>
+          </div>
+
+          {favorites.length === 0 ? (
+            <p className="text-secondary mb-0">No favorite products yet</p>
+          ) : (
+            <ul className="list-group">
+              {favorites.map((product) => (
+                <li
+                  key={product.id}
+                  className="list-group-item d-flex justify-content-between align-items-center"
+                >
+                  <div>
+                    <strong>{product.name}</strong>
+                    <br />
+                    <small className="text-secondary">${product.price}</small>
+                  </div>
+
+                  <button
+                    className="btn btn-outline-danger btn-sm rounded-pill px-3"
+                    onClick={() => handleFavorite(product)}
+                  >
+                    <i className="bi bi-trash me-1"></i> Remove
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </div>
+
+      {/* Loading */}
+      {loading && (
+        <div className="text-center my-4">
+          <div
+            className="spinner-border"
+            style={{ color: "#174477" }}
+          ></div>
+        </div>
+      )}
+
+      {/* Search and Filters */}
+      <div className="card border-0 shadow-sm rounded-4 mb-4">
+        <div className="card-body p-4">
+          <h4 className="fw-bold mb-3" style={{ color: "#0B1F3A" }}>
+            <i className="bi bi-search me-2"></i>
+            Find Products
+          </h4>
+
+          <div className="row g-3">
+            <div className="col-md-4">
+              <input
+                type="text"
+                className="form-control rounded-3 py-2"
+                placeholder="🔍 Search by name..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+            </div>
+
+            <div className="col-md-2">
+              <input
+                type="number"
+                className="form-control rounded-3 py-2"
+                placeholder="Min price"
+                value={minPrice}
+                onChange={(e) => setMinPrice(e.target.value)}
+              />
+            </div>
+
+            <div className="col-md-2">
+              <input
+                type="number"
+                className="form-control rounded-3 py-2"
+                placeholder="Max price"
+                value={maxPrice}
+                onChange={(e) => setMaxPrice(e.target.value)}
+              />
+            </div>
+
+            <div className="col-md-4">
+              <select
+                className="form-select rounded-3 py-2"
+                value={selectedCategory}
+                onChange={(e) => setSelectedCategory(e.target.value)}
+              >
+                {categories.map((category) => (
+                  <option key={category} value={category}>
+                    {category}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Product List */}
+      <div className="d-flex justify-content-between align-items-center mb-3">
+        <h3 className="fw-bold mb-0" style={{ color: "#0B1F3A" }}>
+          <i className="bi bi-grid-fill me-2"></i>
+          Our Products
+        </h3>
+        <span className="badge rounded-pill px-3 py-2 text-white"
+          style={{ background: "#174477" }}>
+          {filteredProducts.length} Products
+        </span>
+      </div>
+
+      <div className="row g-4">
+        {filteredProducts.map((product) => (
+          <div className="col-sm-6 col-lg-4" key={product.id}>
+            <div
+              className="card border-0 shadow-sm h-100 rounded-4 overflow-hidden"
+              style={{
+                transition: "all 0.3s ease",
+                cursor: "pointer"
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "translateY(-7px)";
+                e.currentTarget.style.boxShadow = "0 15px 35px rgba(11,31,58,0.15)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.boxShadow = "";
+              }}
+            >
+              <div
+                className="d-flex align-items-center justify-content-center p-3"
+                style={{ background: "#F8FAFD" }}
+              >
+                <img
+                  src={product.image}
+                  alt={product.title}
+                  style={{
+                    height: "240px",
+                    width: "100%",
+                    objectFit: "contain"
+                  }}
+                />
+              </div>
+
+              <div className="card-body d-flex flex-column p-4">
+                <span className="badge rounded-pill align-self-start mb-3"
+                  style={{
+                    background: "#E4EDF8",
+                    color: "#174477"
+                  }}>
+                  {product.category}
+                </span>
+
+                <h5 className="fw-bold" style={{ color: "#0B1F3A" }}>
+                  {product.title}
+                </h5>
+
+                <p className="text-secondary">
+                  {product.description}
+                </p>
+
+                <div className="mt-auto">
+                  <h3 className="fw-bold mb-0" style={{ color: "#174477" }}>
+                    {Number(product.price).toLocaleString("ru-RU")} сом
+                  </h3>
+
+                  <p className="text-secondary small mb-3">
+                    ${(Number(product.price) / USD_TO_KGS).toFixed(2)}
+                  </p>
+
+                  <button
+                    className="btn w-100 text-white rounded-pill fw-bold py-2 mb-2"
+                    style={{ background: "#0B1F3A" }}
+                    onClick={() => handleAddToCart(product)}
+                  >
+                    <i className="bi bi-cart-plus me-2"></i>
+                    Add to Cart
+                  </button>
+
+                  <button
+                    className={`btn w-100 rounded-pill ${
+                      favorites.some((item) => item.id === product.id)
+                        ? "btn-danger"
+                        : "btn-outline-danger"
+                    }`}
+                    onClick={() => handleFavorite(product)}
+                  >
+                    <i className="bi bi-heart-fill me-2"></i>
+                    {favorites.some((item) => item.id === product.id)
+                      ? "Remove from Favorites"
+                      : "Add to Favorites"}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+    </div>
+  </div>
+);
+
   }
 
   export default Products;
