@@ -10,6 +10,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import markerIcon from "leaflet/dist/images/marker-icon.png";
 import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
+import Header from "./header";
 
 const API_URL = "https://6953a084a319a928023c1129.mockapi.io/pickupPoints";
 
@@ -203,14 +204,13 @@ export default function PickupPointsList() {
 
   return (
     <div
-      className="container-fluid py-4 px-3 px-lg-4"
-      style={{
-        background: "#f5f7fb",
-        minHeight: "100vh",
-      }}
+      className="container "
+    
+    
     >
+      <Header/>
       {/* Заголовок */}
-      <div className="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+      <div className="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4 mt-4">
         <div>
           <h2 className="fw-bold mb-1">📦 Все пункты выдачи</h2>
         </div>
@@ -223,13 +223,7 @@ export default function PickupPointsList() {
           {loading ? "Загрузка..." : "↻ Обновить список"}
         </button>
 
-        <a
-              href="/products"
-              className=" btn btn-primary fw-bold"
-              // style={{ background: "#174477" }}
-            >
-              <i className="bi bi-box-seam me-2"></i>Products
-            </a>
+      
         
       </div>
 

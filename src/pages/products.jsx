@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useEffect } from "react";
 import axios from "axios";
-
+import Header from "./header";
+import { useNavigate } from "react-router-dom";
 
 const USD_TO_KGS = 87.85;
 
@@ -13,6 +14,8 @@ function Products() {
   });
   // const [favorites, setFavorites] = useState([]);
   const user = JSON.parse(localStorage.getItem("user"));
+
+  const navigate = useNavigate();
 
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
@@ -144,11 +147,9 @@ function Products() {
   });
 
   return (
-    <div className="min-vh-100 py-5" style={{ background: "#F1F5FB" }}>
+    <div className="" style={{ background: "#F1F5FB" }}>
       <div className="container">
-       <Header/>
-
-     
+        <Header />
 
         {/* Header */}
         {/* <div className="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-5">
@@ -226,7 +227,7 @@ function Products() {
       </div> */}
 
         {/* Shopping Cart */}
-        <div className="card border-0 shadow-sm rounded-4 mb-4">
+        {/* <div className="card border-0 shadow-sm rounded-4 mb-4 mt-3">
           <div className="card-body p-4">
             <div className="d-flex justify-content-between align-items-center flex-wrap gap-3">
               <div>
@@ -272,10 +273,10 @@ function Products() {
               </a>
             </div>
           </div>
-        </div>
+        </div> */}
 
         {/* Favorites */}
-        <div className="card border-0 shadow-sm rounded-4 mb-4">
+        {/* <div className="card border-0 shadow-sm rounded-4 mb-4">
           <div className="card-body p-4">
             <div className="d-flex justify-content-between align-items-center mb-3">
               <h4 className="fw-bold mb-0" style={{ color: "#0B1F3A" }}>
@@ -317,7 +318,7 @@ function Products() {
               </ul>
             )}
           </div>
-        </div>
+        </div> */}
 
         {/* Loading */}
         {loading && (
@@ -327,7 +328,7 @@ function Products() {
         )}
 
         {/* Search and Filters */}
-        <div className="card border-0 shadow-sm rounded-4 mb-4">
+        <div className="card border-0 shadow-sm rounded-4 mb-4 mt-3">
           <div className="card-body p-4">
             <h4 className="fw-bold mb-3" style={{ color: "#0B1F3A" }}>
               <i className="bi bi-search me-2"></i>
@@ -429,6 +430,7 @@ function Products() {
                     }}
                   />
                 </div>
+                <div className="text-center"></div>
 
                 <div className="card-body d-flex flex-column p-4">
                   <span
@@ -462,17 +464,35 @@ function Products() {
                       USD: {(Number(product.price) / USD_TO_KGS).toFixed(2)} $
                     </p>
 
-                    <button
-                      className="btn w-100 text-white rounded-pill fw-bold py-2 mb-2"
-                      style={{ background: "#0B1F3A" }}
-                      onClick={() => handleAddToCart(product)}
-                    >
-                      <i className="bi bi-cart-plus me-2"></i>
-                      Add to Cart
-                    </button>
+                    <div>
+                      <div className="row ">
+                        <div className="col-6 ">
+                          <button
+                            className="btn btn-primary rounded-4 "
+                            onClick={() => handleAddToCart(product)}
+                          >
+                            <i className="bi bi-cart-plus me-2"></i>
+                            Add to Cart
+                          </button>
+                        </div>
+                        <div className="col-6">
+                          <button
+                            className="btn btn-primary rounded-4  "
+                            onClick={() =>
+                              navigate(`/productDetails/${product.id}`)
+                            }
+                          >
+                            <i className="bi bi-eye me-2"></i>
+                            More details
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* <button className="btn btn-primary form-control rounded-4 mt-2 mb-3">More details...</button> */}
 
                     <button
-                      className={`btn w-100 rounded-pill ${
+                      className={`btn w-100 rounded-pill mt-3 ${
                         favorites.some((item) => item.id === product.id)
                           ? "btn-danger"
                           : "btn-outline-danger"

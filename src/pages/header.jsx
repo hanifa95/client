@@ -1,5 +1,3 @@
-
-
 import React from "react";
 
 const Header = () => {
@@ -15,12 +13,9 @@ const Header = () => {
 
   return (
     <>
- 
-
       {/* Navbar */}
       <nav className="navbar navbar-expand-lg navbar-dark bg-primary shadow rounded-4 mt-2">
         <div className="container-fluid px-4">
-
           <a className="navbar-brand fw-bold fs-4 ps-5" href="/">
             Products
           </a>
@@ -35,7 +30,6 @@ const Header = () => {
           </button>
 
           <div className="collapse navbar-collapse" id="navbarContent">
-
             <ul className="navbar-nav mx-auto gap-lg-2">
               <li className="nav-item">
                 <a className="nav-link px-3" href="/orders">
@@ -49,14 +43,14 @@ const Header = () => {
                 </a>
               </li>
 
-              <li className="nav-item">
+              {/* <li className="nav-item">
                 <a className="nav-link px-3" href="/courier">
                   Couriers
                 </a>
-              </li>
+              </li> */}
 
               <li className="nav-item">
-                <a className="nav-link px-3" href="/pickupPoint">
+                <a className="nav-link px-3" href="/pickupPointsList">
                   Pickup Points
                 </a>
               </li>
@@ -69,14 +63,17 @@ const Header = () => {
             </ul>
 
             <div className="d-flex align-items-center gap-3">
+              <a href="/favorites">
+                <button className="btn btn-outline-danger border-0">
+                  <i class="fa-solid fa-heart fs-5"></i>
+                </button>
+              </a>
 
-              <button className="btn btn-outline-light border-0">
-                <i className="fa-solid fa-bell fs-5"></i>
-              </button>
-
-              <button className="btn btn-outline-light border-0">
-                <i className="fa-solid fa-cart-shopping fs-5"></i>
-              </button>
+              <a href="/checkout">
+                <button className="btn btn-outline-light border-0">
+                  <i className="fa-solid fa-cart-shopping fs-5"></i>
+                </button>
+              </a>
 
               <div className="vr bg-secondary mx-2"></div>
 
@@ -85,20 +82,20 @@ const Header = () => {
                   className="rounded-circle bg-primary d-flex justify-content-center align-items-center me-2"
                   style={{ width: "40px", height: "40px" }}
                 >
-                  <i className="fa-solid fa-user"></i>
+                  <a href="/profile">
+                  <i className="fa-solid fa-user text-light fs-4"></i>
+                  </a>
+                
                 </div>
 
                 <div>
-                  <small className="text-light d-block">
-                    Logged in as
-                  </small>
+                  <small className="text-light d-block">Logged in as</small>
 
                   <span className="fw-semibold">
                     {user ? user.email : "No user logged in"}
                   </span>
                 </div>
               </div>
-
             </div>
           </div>
         </div>

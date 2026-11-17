@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import Header from "./header";
 
 const Inventory = () => {
   const [products, setProducts] = useState([]);
@@ -92,10 +93,11 @@ const Inventory = () => {
   );
 
   return (
-    <div className="inventory-page py-5">
+    <div className="">
       <div className="container">
+        <Header />
         {/* Заголовок */}
-        <div className="d-flex flex-wrap justify-content-between align-items-center mb-4">
+        <div className="d-flex flex-wrap justify-content-between align-items-center mb-4 mt-3">
           <div>
             <span className="text-primary fw-semibold small">
               УПРАВЛЕНИЕ СКЛАДОМ
@@ -107,10 +109,6 @@ const Inventory = () => {
           </div>
 
           <div className="d-flex flex-wrap gap-2 mt-3 mt-md-0">
-            <a href="/products">
-              <button className="btn btn-primary"> Products</button>
-            </a>
-
             <button
               className="btn btn-primary rounded-3 px-4 py-2"
               onClick={getProducts}

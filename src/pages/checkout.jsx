@@ -9,6 +9,7 @@ import {
   Marker,
   useMapEvents,
 } from "react-leaflet";
+import Header from "./header";
 
 // Настройка иконки Leaflet
 delete L.Icon.Default.prototype._getIconUrl;
@@ -29,7 +30,7 @@ const BISHKEK = [42.8746, 74.5698];
 const DELIVERY_PRICE_PER_KG = 50;
 const SERVICE_FEE_PERCENT = 10;
 
-// Клик по карте
+// Обработка клика по карте
 function MapClickHandler({ onMapClick }) {
   useMapEvents({
     click(e) {
@@ -53,13 +54,19 @@ function Checkout() {
   const [customerName, setCustomerName] = useState("");
   const [customerPhone, setCustomerPhone] = useState("");
   const [address, setAddress] = useState("");
-  const [weight, setWeight] = useState("");
 
   const [markerLat, setMarkerLat] = useState(BISHKEK[0]);
   const [markerLng, setMarkerLng] = useState(BISHKEK[1]);
 
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+
+  // Форматирование денег
+  const formatPrice = (price) =>
+    Number(price).toLocaleString("ru-RU", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
 
   // Сумма товаров
   const subtotal = cart.reduce((total, product) => {
@@ -69,24 +76,58 @@ function Checkout() {
     return total + price * count;
   }, 0);
 
-  // Комиссия 10%
-  const serviceFee = subtotal * (SERVICE_FEE_PERCENT / 100);
+  // Автоматический расчёт веса в килограммах
+  const orderWeight = cart.reduce((total, product) => {
+    const productWeight = Number(product.weight) || 0;
+    const count = Number(product.count) || 1;
 
-  // Вес
-  const orderWeight = Number(weight) || 0;
+    const measurement = String(product.measurement || "")
+      .toLowerCase()
+      .trim();
+
+    let weightInKg = 0;
+
+    // Граммы
+    if (
+      ["г", "гр", "грамм", "грамма", "граммов", "g", "gram", "grams"].includes(
+        measurement
+      )
+    ) {
+      weightInKg = productWeight / 1000;
+    }
+
+    // Килограммы
+    else if (
+      [
+        "кг",
+        "кг.",
+        "килограмм",
+        "килограмма",
+        "килограммов",
+        "kg",
+        "kgs",
+      ].includes(measurement)
+    ) {
+      weightInKg = productWeight;
+    }
+
+    return total + weightInKg * count;
+  }, 0);
+
+  // Округление веса для отображения
+  const roundedWeight = Number(orderWeight.toFixed(3));
 
   // Доставка
-  const deliveryPrice = orderWeight * DELIVERY_PRICE_PER_KG;
+  const deliveryPrice =
+    orderWeight * DELIVERY_PRICE_PER_KG;
+
+  // Комиссия
+  const serviceFee =
+    subtotal * (SERVICE_FEE_PERCENT / 100);
 
   // Итоговая сумма
-  const totalAmount = subtotal + serviceFee + deliveryPrice;
-
-  // Форматирование денег
-  const formatPrice = (price) =>
-    Number(price).toLocaleString("ru-RU", {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    });
+  const totalAmount =
+    subtotal + serviceFee + deliveryPrice;
 
   // Выбор адреса на карте
   const handleMapClick = (latlng) => {
@@ -128,18 +169,19 @@ function Checkout() {
       return;
     }
 
-    if (!weight || Number(weight) <= 0) {
-      setMessage("Введите правильный вес заказа!");
+    if (orderWeight <= 0) {
+      setMessage("Вес товаров не определён. Проверьте вес и единицы измерения товаров!");
       return;
     }
 
     const cartItem = {
-      customerName,
-      customerPhone,
+      customerName: customerName.trim(),
+      customerPhone: customerPhone.trim(),
       items: cart,
-      address,
+      address: address.trim(),
 
-      weight: orderWeight,
+      // Общий вес в килограммах
+      weight: roundedWeight,
 
       lat: markerLat,
       long: markerLng,
@@ -173,20 +215,21 @@ function Checkout() {
         setCustomerName("");
         setCustomerPhone("");
         setAddress("");
-        setWeight("");
       }
     } catch (error) {
       console.error("Order error:", error);
-      setMessage("Ошибка оформления заказа. Попробуйте ещё раз.");
+      setMessage(
+        "Ошибка оформления заказа. Попробуйте ещё раз."
+      );
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="container py-5">
-
-      <h1 className="text-center fw-bold mb-5">
+    <div className="container">
+      <Header/>
+      <h1 className="text-center fw-bold mb-5 mt-3">
         🛒 Оформление заказа
       </h1>
 
@@ -207,7 +250,10 @@ function Checkout() {
                 <div className="text-center py-4 text-muted">
                   <h5>Корзина пуста</h5>
 
-                  <a href="/" className="btn btn-success mt-3">
+                  <a
+                    href="/products"
+                    className="btn btn-success mt-3"
+                  >
                     Вернуться к товарам
                   </a>
                 </div>
@@ -236,8 +282,13 @@ function Checkout() {
                               Цена: {formatPrice(price)} сом
                             </p>
 
-                            <p className="mb-0">
+                            <p className="mb-1">
                               Количество: {count}
+                            </p>
+
+                            <p className="text-secondary mb-0">
+                              Вес: {product.weight}{" "}
+                              {product.measurement}
                             </p>
                           </div>
 
@@ -257,13 +308,11 @@ function Checkout() {
                           </div>
 
                         </div>
-
                       </div>
                     </div>
                   );
                 })
               )}
-
             </div>
           </div>
 
@@ -290,7 +339,7 @@ function Checkout() {
               >
                 <TileLayer
                   url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                  attribution='&copy; OpenStreetMap'
+                  attribution="&copy; OpenStreetMap"
                 />
 
                 <MapClickHandler
@@ -309,7 +358,6 @@ function Checkout() {
 
             </div>
           </div>
-
         </div>
 
         {/* Правая колонка */}
@@ -328,12 +376,14 @@ function Checkout() {
               {/* Расчёты */}
               <div className="d-flex justify-content-between mb-3">
                 <span>Товары:</span>
-                <strong>{formatPrice(subtotal)} сом</strong>
+                <strong>
+                  {formatPrice(subtotal)} сом
+                </strong>
               </div>
 
               <div className="d-flex justify-content-between mb-3">
-                <span>Вес:</span>
-                <strong>{orderWeight} кг</strong>
+                <span>Общий вес:</span>
+                <strong>{roundedWeight} кг</strong>
               </div>
 
               <div className="d-flex justify-content-between mb-3">
@@ -353,9 +403,7 @@ function Checkout() {
               <hr />
 
               <div className="d-flex justify-content-between align-items-center mb-4">
-                <h5 className="fw-bold">
-                  Итого:
-                </h5>
+                <h5 className="fw-bold">Итого:</h5>
 
                 <h4 className="text-success fw-bold">
                   {formatPrice(totalAmount)} сом
@@ -413,26 +461,22 @@ function Checkout() {
                 />
               </div>
 
-              {/* Вес */}
+              {/* Автоматический вес */}
               <div className="mb-3">
                 <label className="form-label fw-semibold">
-                  Вес заказа (кг)
+                  Общий вес заказа
                 </label>
 
                 <input
-                  type="number"
-                  min="0.01"
-                  step="0.01"
+                  type="text"
                   className="form-control rounded-3"
-                  placeholder="Введите вес"
-                  value={weight}
-                  onChange={(e) =>
-                    setWeight(e.target.value)
-                  }
+                  value={`${roundedWeight} кг`}
+                  readOnly
                 />
 
                 <small className="text-muted">
-                  Доставка: 50 сом за 1 кг
+                  Вес рассчитывается автоматически из корзины.
+                  Доставка: 50 сом за 1 кг.
                 </small>
               </div>
 
@@ -470,12 +514,9 @@ function Checkout() {
                 </a>
 
               </div>
-
             </div>
           </div>
-
         </div>
-
       </div>
     </div>
   );

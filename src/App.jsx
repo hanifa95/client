@@ -15,6 +15,7 @@ import Inventory from "./pages/inventory";
 import OrdersDetail from "./pages/orders-details";
 import PickupPointsList from "./pages/pickupPointsLists";
 import Header from "./pages/header";
+import ProductDetails from "./pages/productDetails";
 
 
 function App() {
@@ -43,6 +44,7 @@ function App() {
           <Route path="/orders/:id" element={<OrdersDetail />} />
           <Route path="/pickupPointsList" element={<PickupPointsList />} />
           <Route path="/Header" element={<Header />} />
+          <Route path="/productDetails/:id" element={<ProductDetails/>} />
         
         
         </Routes>

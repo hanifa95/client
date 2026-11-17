@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase/firebase-config";
 import { useNavigate } from "react-router-dom";
+import Header from "./header";
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
@@ -98,10 +99,11 @@ const Orders = () => {
   };
 
   return (
-    <div className="bg-light min-vh-100 py-5">
+    <div className="">
       <div className="container">
+        <Header/>
         {/* Header */}
-        <div className="d-flex flex-wrap justify-content-between align-items-center mb-5 gap-3">
+        <div className="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3 mt-4">
           <div>
             <h1 className="fw-bold text-primary mb-1">📦 My Orders</h1>
 
@@ -121,13 +123,7 @@ const Orders = () => {
               ↻ Обновить
             </button>
 
-            <a
-              href="/products"
-              className=" btn btn-primary"
-              // style={{ background: "#174477" }}
-            >
-              <i className="bi bi-box-seam me-2"></i>Products
-            </a>
+           
 
             <button className="btn btn-danger fw-bold" onClick={logout}>
               Logout
